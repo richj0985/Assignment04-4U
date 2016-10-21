@@ -1,3 +1,6 @@
+
+import java.awt.Color;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -20,8 +23,18 @@ public class Doctor {
     }
     
     // Methods
-    public void move (int newRow, int newCol){
+    public void move (Doctor doctor, int newRow, int newCol){
+        int ranRow = (int) (Math.random() * 11);
+        int ranCol = (int) (Math.random() * 11);
         
+        if(((newRow == doctor.row) || (newRow == doctor.row + 1) || (newRow == doctor.row - 1)) 
+                && ((newCol == doctor.col) || (newCol == doctor.col + 1) || (newCol == doctor.col - 1))){
+            this.row = newRow;
+            this.col = newCol;
+        } else{
+            this.row = ranRow;
+            this.col = ranCol;
+        }
     }
     
     public int getRow(){

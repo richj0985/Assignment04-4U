@@ -11,7 +11,7 @@ public class Dalek {
     // Instance Variables
     private int row;
     private int col;
-    private boolean crashed;
+    private boolean crashed = false;
     
     // Constructor
     public Dalek(int row, int col){
@@ -21,7 +21,7 @@ public class Dalek {
     
     // Methods
     public boolean hasCrashed (){
-        return this.crashed;
+        return this.crashed == true;
     }
     
     public int getRow(){
@@ -32,11 +32,21 @@ public class Dalek {
         return this.col;
     }
     
-    public void advanceTowards(Doctor doc){
+    public void advanceTowards(Doctor doctor){
+        if(doctor.getRow() > this.row){
+            this.row ++;
+        } else if(doctor.getCol() < this.row){
+            this.row --;
+        }
         
+        if(doctor.getCol() > this.col){
+            this.col ++;
+        } else if(doctor.getCol() < this.col){
+            this.col --;
+        }
     }
     
     public void crash(){
-        
+        this.crashed = true;
     }
 }
