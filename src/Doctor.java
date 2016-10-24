@@ -15,6 +15,8 @@ public class Doctor {
     // Instance Variables
     private int row;
     private int col;
+    private Color colour;
+    private boolean captured = false;
     
     // Constructor
     public Doctor(int row, int col){
@@ -23,6 +25,11 @@ public class Doctor {
     }
     
     // Methods
+    
+    public boolean isCaptured (){
+        return this.captured == true;
+    }
+    
     public void move (Doctor doctor, int newRow, int newCol){
         int ranRow = (int) (Math.random() * 11);
         int ranCol = (int) (Math.random() * 11);
@@ -43,5 +50,21 @@ public class Doctor {
     
     public int getCol(){
         return this.col;
+    }
+    
+    public Color getColour(){
+        if(this.captured){
+            return this.colour = Color.YELLOW;
+        }else{
+            return this.colour = Color.GREEN;
+        }
+    }
+    
+     public void intersection(Dalek dalek){
+        boolean crash = false;
+        
+        if(this.row == dalek.getRow() && this.col == dalek.getCol()){
+            this.captured = true;
+        }
     }
 }

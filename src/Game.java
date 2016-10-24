@@ -18,7 +18,7 @@ public class Game {
     public static void main(String[] args) {
         
         // Create the Game Board
-        Board board = new Board(12, 12);
+        Board board = new Board(12, 12);     
         
         Doctor doctor = new Doctor (6, 6);
         board.putPeg(Color.GREEN, 6, 6);
@@ -32,45 +32,114 @@ public class Game {
         Dalek dalek3 = new Dalek (11, 0);
         board.putPeg(Color.BLACK, 11, 0);
         
-        System.out.println(dalek2.hasCrashed());
-      
-//       Put a coloured peg at row, col
-//       board.putPeg(Color.RED, 1, 5);
-//       board.putPeg(Color.MAGENTA, 2, 6);
-        
-//         Remove a coloured peg at row, col
-//        board.removePeg(1, 5);
-        
         // Put a message on the board
-        board.displayMessage("Please click the board");
+        board.displayMessage("Please click the board to play!");
         
         while(true){
-            // Get a click on the board
-            Coordinate click = board.getClick();
+            
+            if(doctor.isCaptured()){
+                board.displayMessage("You Lose, Game Over!");
+            } else if(dalek1.hasCrashed() && dalek2.hasCrashed() && dalek3.hasCrashed()){
+                board.displayMessage("You Win!");
+            }
+            
+            doctor.intersection(dalek1);
+            doctor.intersection(dalek2);
+            doctor.intersection(dalek3);
             board.removePeg(doctor.getRow(), doctor.getCol());
-            doctor.move(doctor, click.getRow(), click.getCol());
-            board.putPeg(Color.GREEN, doctor.getRow(), doctor.getCol());
+            board.putPeg(doctor.getColour(), doctor.getRow(), doctor.getCol());
+            
+            if(doctor.isCaptured() == false){
+                // Get a click on the board
+                Coordinate click = board.getClick();
+                board.removePeg(doctor.getRow(), doctor.getCol());
+                doctor.move(doctor, click.getRow(), click.getCol());
+                board.putPeg(Color.GREEN, doctor.getRow(), doctor.getCol());
+            }
+            
+//            if(dalek1.getRow() == dalek2.getRow() && dalek1.getCol() == dalek2.getCol()){
+//                dalek1.crash();
+//                board.removePeg(dalek1.getRow(), dalek1.getCol());
+//                board.putPeg(Color.RED, dalek1.getRow(), dalek1.getCol());
+//                
+//                dalek2.crash();
+//                board.removePeg(dalek2.getRow(), dalek2.getCol());
+//                board.putPeg(Color.RED, dalek2.getRow(), dalek2.getCol());
+//                
+//            } else if(dalek1.getRow() == dalek3.getRow() && dalek1.getCol() == dalek3.getCol()){
+//                dalek1.crash();
+//                board.removePeg(dalek1.getRow(), dalek1.getCol());
+//                board.putPeg(Color.RED, dalek1.getRow(), dalek1.getCol());
+//                
+//                dalek3.crash();
+//                board.removePeg(dalek3.getRow(), dalek3.getCol());
+//                board.putPeg(Color.RED, dalek3.getRow(), dalek3.getCol());
+//            } else if(dalek2.getRow() == dalek3.getRow() && dalek2.getCol() == dalek3.getCol()){
+//                dalek2.crash();
+//                board.removePeg(dalek2.getRow(), dalek2.getCol());
+//                board.putPeg(Color.RED, dalek2.getRow(), dalek2.getCol());
+//                
+//                dalek3.crash();
+//                board.removePeg(dalek3.getRow(), dalek3.getCol());
+//                board.putPeg(Color.RED, dalek3.getRow(), dalek3.getCol());
+//            }
+            
+            dalek1.intersection(dalek2);
+            dalek1.intersection(dalek3);
+            board.removePeg(dalek1.getRow(), dalek1.getCol());
+            board.putPeg(dalek1.getColour(), dalek1.getRow(), dalek1.getCol());
+            
+            dalek2.intersection(dalek1);
+            dalek2.intersection(dalek3);
+            board.removePeg(dalek2.getRow(), dalek2.getCol());
+            board.putPeg(dalek2.getColour(), dalek2.getRow(), dalek2.getCol());
+            
+            dalek3.intersection(dalek1);
+            dalek3.intersection(dalek2);
+            board.removePeg(dalek3.getRow(), dalek3.getCol());
+            board.putPeg(dalek3.getColour(), dalek3.getRow(), dalek3.getCol());
             
             if(dalek1.hasCrashed() == false){
+                
+//                if((dalek1.getRow() == dalek2.getRow() && dalek1.getCol() == dalek2.getCol()) 
+//                        || (dalek1.getRow() == dalek3.getRow() && dalek1.getCol() == dalek3.getCol())){
+//                    dalek1.crash();
+//                    board.removePeg(dalek1.getRow(), dalek1.getCol());
+//                    board.putPeg(Color.RED, dalek1.getRow(), dalek1.getCol());
+//                }  
+                
                 board.removePeg(dalek1.getRow(), dalek1.getCol());
                 dalek1.advanceTowards(doctor);
                 board.putPeg(Color.BLACK, dalek1.getRow(), dalek1.getCol());
             }
             
-            if(dalek1.hasCrashed() == false){
+            if(dalek2.hasCrashed() == false){
+//                if((dalek2.getRow() == dalek1.getRow() && dalek2.getCol() == dalek1.getCol()) 
+//                        || (dalek2.getRow() == dalek3.getRow() && dalek2.getCol() == dalek3.getCol())){
+//                    dalek2.crash();
+//                    board.removePeg(dalek2.getRow(), dalek2.getCol());
+//                    board.putPeg(Color.RED, dalek2.getRow(), dalek2.getCol());
+//                }
+                
                 board.removePeg(dalek2.getRow(), dalek2.getCol());
                 dalek2.advanceTowards(doctor);
                 board.putPeg(Color.BLACK, dalek2.getRow(), dalek2.getCol());
             }
             
             if(dalek3.hasCrashed() == false){
+                
+//                if((dalek3.getRow() == dalek1.getRow() && dalek3.getCol() == dalek1.getCol()) 
+//                        || (dalek3.getRow() == dalek2.getRow() && dalek3.getCol() == dalek2.getCol())){
+//                    dalek3.crash();
+//                    board.removePeg(dalek3.getRow(), dalek3.getCol());
+//                    board.putPeg(Color.RED, dalek3.getRow(), dalek3.getCol());
+//                }
+                
                 board.removePeg(dalek3.getRow(), dalek3.getCol());
                 dalek3.advanceTowards(doctor);
                 board.putPeg(Color.BLACK, dalek3.getRow(), dalek3.getCol());
             }
             
-//            // Put a peg on the board by clicking
-//            board.putPeg(Color.MAGENTA, row, col);
         }
         
         
