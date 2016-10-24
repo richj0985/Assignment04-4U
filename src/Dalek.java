@@ -1,5 +1,4 @@
 
-import java.awt.Color;
 
 /*
  * To change this template, choose Tools | Templates
@@ -14,7 +13,6 @@ public class Dalek {
     // Instance Variables
     private int row;
     private int col;
-    private Color colour;
     private boolean crashed = false;
     
     // Constructor
@@ -35,15 +33,7 @@ public class Dalek {
     public int getCol(){
         return this.col;
     }
-    
-    public Color getColour(){
-        if(this.crashed){
-            return this.colour = Color.RED;
-        }else{
-            return this.colour = Color.BLACK;
-        }
-    }
-    
+        
     public void advanceTowards(Doctor doctor){       
           
         int rowMove = this.row - doctor.getRow();
@@ -65,22 +55,6 @@ public class Dalek {
                   this.col--;
               }
           }
-//        if(doctor.getRow() > this.row){
-//            this.row ++;
-//        } else if(doctor.getCol() < this.row){
-//            this.row --;
-//        }
-//        
-//        if(doctor.getCol() > this.col){
-//            this.col ++;
-//        } else if(doctor.getCol() < this.col){
-//            this.col --;
-//        }
-//    }
-    
-//    public void crash(){
-//        this.crashed = true;
-//    }
     
     public void intersection(Dalek dalek){
         boolean crash = false;

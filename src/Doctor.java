@@ -1,5 +1,4 @@
 
-import java.awt.Color;
 
 /*
  * To change this template, choose Tools | Templates
@@ -15,7 +14,6 @@ public class Doctor {
     // Instance Variables
     private int row;
     private int col;
-    private Color colour;
     private boolean captured = false;
     
     // Constructor
@@ -24,7 +22,15 @@ public class Doctor {
         this.col = col;
     }
     
-    // Methods
+    // METHODS
+    
+    public int getRow(){
+        return this.row;
+    }
+    
+    public int getCol(){
+        return this.col;
+    }
     
     public boolean isCaptured (){
         return this.captured == true;
@@ -41,22 +47,6 @@ public class Doctor {
         } else{
             this.row = ranRow;
             this.col = ranCol;
-        }
-    }
-    
-    public int getRow(){
-        return this.row;
-    }
-    
-    public int getCol(){
-        return this.col;
-    }
-    
-    public Color getColour(){
-        if(this.captured){
-            return this.colour = Color.YELLOW;
-        }else{
-            return this.colour = Color.GREEN;
         }
     }
     
