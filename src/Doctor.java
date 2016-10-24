@@ -16,32 +16,45 @@ public class Doctor {
     private int col;
     private boolean captured = false;
     
-    // Constructor
-    public Doctor(int row, int col){
-        this.row = row;
-        this.col = col;
+    
+    /**
+     * Constructor to create a doctor
+     */
+    public Doctor(){
+        int ranDocRow = (int) (Math.random() * 11);
+        int ranDocCol = (int) (Math.random() * 11);
+        this.row = ranDocRow;
+        this.col = ranDocCol;
     }
     
     // METHODS
-    
+    /**
+     * Returns the row that the doctor is on
+     * @return the row that the doctor is on
+     */
     public int getRow(){
         return this.row;
     }
     
+    /**
+     * Returns the column that the doctor is on
+     * @return the column that the doctor is on
+     */
     public int getCol(){
         return this.col;
     }
     
-    public boolean isCaptured (){
-        return this.captured == true;
-    }
-    
-    public void move (Doctor doctor, int newRow, int newCol){
+    /**
+     * Movement of Doctor
+     * @param newRow the new row that the doctor is going to move to
+     * @param newCol the new column that the doctor is going to move to
+     */
+    public void move (int newRow, int newCol){
         int ranRow = (int) (Math.random() * 11);
         int ranCol = (int) (Math.random() * 11);
         
-        if(((newRow == doctor.row) || (newRow == doctor.row + 1) || (newRow == doctor.row - 1)) 
-                && ((newCol == doctor.col) || (newCol == doctor.col + 1) || (newCol == doctor.col - 1))){
+        if(((newRow == this.row) || (newRow == this.row + 1) || (newRow == this.row - 1)) 
+                && ((newCol == this.col) || (newCol == this.col + 1) || (newCol == this.col - 1))){
             this.row = newRow;
             this.col = newCol;
         } else{
@@ -50,11 +63,23 @@ public class Doctor {
         }
     }
     
+    /**
+     * Determines if the doctor is captured by one of the daleks
+     * @param dalek the dalek that the doctor is compared to
+     */
      public void intersection(Dalek dalek){
         boolean crash = false;
         
         if(this.row == dalek.getRow() && this.col == dalek.getCol()){
             this.captured = true;
         }
+    }
+    
+    /**
+     * Tells the user if the doctor is captured or not
+     * @return if the doctor is in the state of being captured
+     */
+    public boolean isCaptured (){
+        return this.captured == true;
     }
 }

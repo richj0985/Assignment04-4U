@@ -1,8 +1,7 @@
 
 
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * This is the Dalek Class that holds everything about the Dalek Object
  */
 
 /**
@@ -15,25 +14,38 @@ public class Dalek {
     private int col;
     private boolean crashed = false;
     
-    // Constructor
-    public Dalek(int row, int col){
-        this.row = row;
-        this.col = col;
+    /**
+     * A constructor to create a new dalek
+     */
+    public Dalek(){
+        int ranDalRow = (int) (Math.random() * 11);
+        int ranDalCol = (int) (Math.random() * 11);
+        this.row = ranDalRow;
+        this.col = ranDalCol;
     }
     
     // Methods
-    public boolean hasCrashed (){
-        return this.crashed == true;
-    }
     
+    /**
+     * Returns the row that the dalek is on
+     * @return the row coordinate of the dalek
+     */
     public int getRow(){
         return this.row;
     }
     
+    /**
+     * Returns the column that the dalek is on
+     * @return the column coordinate of the dalek
+     */
     public int getCol(){
         return this.col;
     }
-        
+    
+    /**
+     * Moves the dalek toward the proper direction of the doctor
+     * @param doctor the doctor to move relative to
+     */
     public void advanceTowards(Doctor doctor){       
           
         int rowMove = this.row - doctor.getRow();
@@ -56,11 +68,23 @@ public class Dalek {
               }
           }
     
+    /**
+     * Determines if one dalek has crashed into another dalek
+     * @param dalek the dalek that is being compared to
+     */
     public void intersection(Dalek dalek){
         boolean crash = false;
         
         if(this.row == dalek.getRow() && this.col == dalek.getCol()){
             this.crashed = true;
         }
+    }
+    
+    /**
+     * Determines if the Dalek has crashed
+     * @return true or false if the dalek has crashed or not
+     */
+    public boolean hasCrashed (){
+        return this.crashed == true;
     }
 }

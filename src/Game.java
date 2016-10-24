@@ -21,28 +21,29 @@ public class Game {
         Board board = new Board(12, 12);     
         
         // DOCTOR CREATION
-        Doctor doctor = new Doctor (6, 6);
-        board.putPeg(Color.GREEN, 6, 6);
+        Doctor doctor = new Doctor ();
+        board.putPeg(Color.GREEN, doctor.getRow(), doctor.getCol());
         
         // DALEK CREATIONS
         // Dalek 1
-        Dalek dalek1 = new Dalek (11, 11);
-        board.putPeg(Color.BLACK, 11, 11);
+        Dalek dalek1 = new Dalek ();
+        board.putPeg(Color.BLACK, dalek1.getRow(), dalek1.getCol());
         
         // Dalek 2
-        Dalek dalek2 = new Dalek (0, 0);
-        board.putPeg(Color.BLACK, 0, 0);
+        Dalek dalek2 = new Dalek ();
+        board.putPeg(Color.BLACK, dalek2.getRow(), dalek2.getCol());
         
         // Dalek 3
-        Dalek dalek3 = new Dalek (11, 0);
-        board.putPeg(Color.BLACK, 11, 0);
+        Dalek dalek3 = new Dalek ();
+        board.putPeg(Color.BLACK, dalek3.getRow(), dalek3.getCol());
         
         // Put a message on the board
         board.displayMessage("Please click the board to play!");
         
+        // Loop through the program
         while(true){
             
-            //               CHECKING INTERSECTIONS
+            //                INTERSECTIONS
             // Check if the doctor has been captured by any of the daleks
             doctor.intersection(dalek1);
             doctor.intersection(dalek2);
@@ -65,7 +66,7 @@ public class Game {
                 // Get a click on the board
                 Coordinate click = board.getClick();
                 board.removePeg(doctor.getRow(), doctor.getCol());
-                doctor.move(doctor, click.getRow(), click.getCol());
+                doctor.move(click.getRow(), click.getCol());
                 board.putPeg(Color.GREEN, doctor.getRow(), doctor.getCol());
             // If he has been captured then the game is over and you lose
             } else{
@@ -144,6 +145,20 @@ public class Game {
                 board.putPeg(Color.RED, dalek3.getRow(), dalek3.getCol());
             }
             
+            //                         GAME OVER
+            // Determine once again after all the movements is the doctor captured yet
+            // If so than the game is over and the user loses
+            if(doctor.isCaptured()){
+                board.displayMessage("You Lose, Game Over!");
+                board.removePeg(doctor.getRow(), doctor.getCol());
+                board.putPeg(Color.YELLOW, doctor.getRow(), doctor.getCol());
+                break;
+            // Also determine if all the daleks have crashed or not
+            // If so than the game is over and the user wins
+            } else if(dalek1.hasCrashed() && dalek2.hasCrashed() && dalek3.hasCrashed()){
+                board.displayMessage("You Win!");
+                break;
+            }
         }
           
     }
