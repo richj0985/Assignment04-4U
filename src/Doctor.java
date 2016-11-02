@@ -21,13 +21,20 @@ public class Doctor {
      * Constructor to create a doctor
      */
     public Doctor(){
-        int ranDocRow = (int) (Math.random() * 11);
-        int ranDocCol = (int) (Math.random() * 11);
-        this.row = ranDocRow;
-        this.col = ranDocCol;
+        // set a new random position for the doctor
+        setRandomLocation();
     }
     
     // METHODS
+    public void setRandomLocation(){
+        // set a new random position for the doctor
+        this.row = (int) (Math.random() * 12);
+        this.col = (int) (Math.random() * 12);
+        
+        //reset the doctor's captured state
+        this.captured = false;
+    }
+    
     /**
      * Returns the row that the doctor is on
      * @return the row that the doctor is on
@@ -50,16 +57,21 @@ public class Doctor {
      * @param newCol the new column that the doctor is going to move to
      */
     public void move (int newRow, int newCol){
-        int ranRow = (int) (Math.random() * 11);
-        int ranCol = (int) (Math.random() * 11);
-        
-        if(((newRow == this.row) || (newRow == this.row + 1) || (newRow == this.row - 1)) 
-                && ((newCol == this.col) || (newCol == this.col + 1) || (newCol == this.col - 1))){
+        // determine if the new position being requested for the doctor
+        // is within 1 cell position from the current doctors location
+        // if it is then set the new position and if not than 
+        // set a new random position for the doctor
+        if(    ((newRow == this.row) || (newRow == this.row + 1) || (newRow == this.row - 1)) 
+            && ((newCol == this.col) || (newCol == this.col + 1) || (newCol == this.col - 1))){
+            // within 1 cell position from doctor
+            // set the new position
             this.row = newRow;
             this.col = newCol;
         } else{
-            this.row = ranRow;
-            this.col = ranCol;
+            // new position is not withint 1 cell position 
+            // determine new random position of the doctor
+            this.row = (int) (Math.random() * 11);
+            this.col = (int) (Math.random() * 11);
         }
     }
     
@@ -68,8 +80,8 @@ public class Doctor {
      * @param dalek the dalek that the doctor is compared to
      */
      public void intersection(Dalek dalek){
-        boolean crash = false;
-        
+        // determine if the doctor has intersected with the dalek
+        // if it has, than the doctor has been captured
         if(this.row == dalek.getRow() && this.col == dalek.getCol()){
             this.captured = true;
         }

@@ -2,7 +2,7 @@
 import java.awt.Color;
 
 /*
- * Dalek Assingment Game
+ * Dalek Assignment Game
  */
 
 /**
@@ -19,66 +19,62 @@ public class Game {
         // Create the Game Board
         Board board = new Board(12, 12);     
                 
-        // DALEK CREATIONS
+        //
+        // DALEK CREATIONS 
+        //
+        // Create each dalek one at a time and ensure
+        // they don't create in the same random location
+        
+        // create Dalek1.  No issue of crash with others
         Dalek dalek1 = new Dalek ();
+        
+        // create dalek2 and check to ensure isn't in 
+        // same location as dalek 1.  If it is pick a new
+        // new location
         Dalek dalek2 = new Dalek ();
-        Dalek dalek3 = new Dalek ();
-        
-        // Make sure dalek 1 doesn't spawn on other daleks
-        do{
-            
-            dalek1.intersection(dalek2);
-            dalek1.intersection(dalek3);
-
-            if(dalek1.hasCrashed() == true){
-                dalek1 = new Dalek();
-            }else{
-                break;
-            }
-        }while(true);
-        
-        // Make sure dalek 2 doesn't spawn on other daleks
-        do{
-
+        do {      
+            // determine if in same location a other daleks
+            // if it is it will set the dalek to crashed state
+            // if crashed pick new lcoation
             dalek2.intersection(dalek1);
-            dalek2.intersection(dalek3);
-
-            if(dalek2.hasCrashed() == true){
-                dalek2 = new Dalek();
-            }else{
-                break;
+            if(dalek2.hasCrashed()){
+                // pick new random location for the dalek
+                dalek2.setRandomLocation();
             }
-        }while(true);
-        
-        // Make sure dalek 3 doesn't spawn on other daleks
-        do{
-            
+        }while(dalek2.hasCrashed());
+
+        // create dalek3 and check to ensure isn't in 
+        // same location as dalek 1.  If it is pick a new
+        // new location
+        Dalek dalek3 = new Dalek ();
+        do {      
+            // determine if in same location a other daleks
+            // if it is it will set the dalek to crashed state
+            // if crashed pick new lcoation
             dalek3.intersection(dalek1);
             dalek3.intersection(dalek2);
-
-            if(dalek3.hasCrashed() == true){
-                dalek3 = new Dalek();
-            }else{
-                break;
+            if(dalek3.hasCrashed()){
+                // pick new random location for the dalek
+                dalek3.setRandomLocation();
             }
-        }while(true);
+        }while(dalek3.hasCrashed());
+
         
         // DOCTOR CREATION
+        // create the doctor and see if already captured by dalek
+        // if already captured pick a new location
         Doctor doctor = new Doctor ();
-        
-        // make sure the doctor doesn't spawn on any of the daleks
         do{
-            
+            // determine if doctor already captured by dalek
             doctor.intersection(dalek1);
             doctor.intersection(dalek2);
             doctor.intersection(dalek3);
 
-            if(doctor.isCaptured() == true){
-                dalek3 = new Dalek();
-            }else{
-                break;
+            // if already catpured pick a new location
+            if(doctor.isCaptured()){
+                dalek3.setRandomLocation();
             }
-        }while(true);
+        }while(doctor.isCaptured());
         
         // Putting Pegs Down for Daleks
         board.putPeg(Color.BLACK, dalek1.getRow(), dalek1.getCol());
@@ -93,8 +89,10 @@ public class Game {
         
         // Loop through the game
         while(true){            
-            //                INTERSECTIONS
-            // DOCTOR
+            //
+            //          INTERSECTIONS
+            //
+            // DOCTOR 
             // Check if the doctor has been captured by any of the daleks
             doctor.intersection(dalek1);
             doctor.intersection(dalek2);
@@ -112,24 +110,27 @@ public class Game {
             dalek3.intersection(dalek2);
             
             // Change the peg colour of the daleks if they have found to be intersected
-            if(dalek1.hasCrashed() == true){
+            if(dalek1.hasCrashed()){
                 board.removePeg(dalek1.getRow(), dalek1.getCol());
                 board.putPeg(Color.RED, dalek1.getRow(), dalek1.getCol());
             }
             
-            if(dalek2.hasCrashed() == true){
+            if(dalek2.hasCrashed()){
                 board.removePeg(dalek2.getRow(), dalek2.getCol());
                 board.putPeg(Color.RED, dalek2.getRow(), dalek2.getCol());
             }
             
-            if(dalek3.hasCrashed() == true){
+            if(dalek3.hasCrashed()){
                 board.removePeg(dalek3.getRow(), dalek3.getCol());
                 board.putPeg(Color.RED, dalek3.getRow(), dalek3.getCol());
             }
             
-            //                      END GAME
+            
+            //
+            //        END GAME
+            //
             // If the Doctor is captured than the game is over
-            if(doctor.isCaptured() == true){
+            if(doctor.isCaptured()){
                 board.displayMessage("You Lose, Game Over!");
                 board.removePeg(doctor.getRow(), doctor.getCol());
                 board.putPeg(Color.YELLOW, doctor.getRow(), doctor.getCol());
@@ -142,8 +143,9 @@ public class Game {
                 break;
             }
             
-            //                   DOCTOR MOVEMENTS
-            // Doctor
+            //
+            //        DOCTOR MOVEMENTS
+            //
             // Check if the doctor has been captured or not
             // If not then he may move throughout the board
             if(doctor.isCaptured() == false){
@@ -153,8 +155,10 @@ public class Game {
                 doctor.move(click.getRow(), click.getCol());
                 board.putPeg(Color.GREEN, doctor.getRow(), doctor.getCol());
             }
-            
-            //                     DALEK MOVEMENTS
+
+            //
+            //        DALEK MOVEMENTS
+            //
             // DALEK 1
             // Check to see if the dalek has crashed
             // If not than it may move toward the doctor
@@ -184,6 +188,5 @@ public class Game {
             board.putPeg(Color.BLACK, dalek2.getRow(), dalek2.getCol());
             board.putPeg(Color.BLACK, dalek3.getRow(), dalek3.getCol());
         }
-          
     }
 }
